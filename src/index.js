@@ -3,7 +3,8 @@
     localStorage.cookies || (localStorage.cookies = '{}');
     document.__defineGetter__('cookie', function() {
       var cookieName, cookies, output, res, val, validName;
-      cookies = JSON.parse(localStorage.cookies);
+
+      cookies = JSON.parse(localStorage.cookies );
       output = [];
       for (cookieName in cookies) {
         val = cookies[cookieName];
@@ -15,16 +16,18 @@
     });
     document.__defineSetter__('cookie', function(s) {
       var cookies, key, parts, value;
-      parts = s.split('=');
+      parts = s.split(';')[0].split('=');
       if (parts.length === 2) {
         key = parts[0], value = parts[1];
       } else {
         value = parts[0];
         key = '';
       }
+
       cookies = JSON.parse(localStorage.cookies || '{}');
       cookies[key] = value;
       localStorage.cookies = JSON.stringify(cookies);
+
       return key + '=' + value;
     });
     document.clearCookies = function() {
